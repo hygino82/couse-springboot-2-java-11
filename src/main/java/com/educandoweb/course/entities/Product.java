@@ -8,30 +8,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
-public class Product implements Serializable{
+public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String description;
 	private Double price;
 	private String imgUrl;
-	
-	@Transient
-	private Set <Category> categories = new HashSet<>();
-	//a coleção deve começar vazia mas instanciada
-	//set é uma interface não pode ser instanciado por isso o uso do Hashset
-	
-	public Product() {		
+
+	@ManyToMany // relação de muitos para muitos
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	// define a chave estrangeira da outra entidade
+	private Set<Category> categories = new HashSet<>();
+	// a coleção deve começar vazia mas instanciada
+	// set é uma interface não pode ser instanciado por isso o uso do Hashset
+
+	public Product() {
 	}
-	
+
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		this.id = id;
 		this.name = name;
@@ -108,6 +112,5 @@ public class Product implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
