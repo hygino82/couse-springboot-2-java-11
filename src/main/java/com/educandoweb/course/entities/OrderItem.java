@@ -63,6 +63,10 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 
+	public Double getSubTotal() {//java enterprise usa o get
+		return quantity * price;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
